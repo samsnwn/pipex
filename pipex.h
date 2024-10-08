@@ -11,5 +11,7 @@
 #define READ_START 0
 #define WRITE_END 1
 
+int ft_strlen(char *str);
+
 
 #endif

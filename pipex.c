@@ -1,5 +1,18 @@
 #include "pipex.h"
 
+int ft_strlen(char *str)
+{
+    int count;
+
+    count = 0;
+    while (*str)
+    {
+        count++;
+        str++;
+    }
+    return count;
+}
+
 void  first_child_process(int infile, char *argv, int pipe_fds[], char **env)
 {
     int bytes_read;
@@ -19,7 +32,7 @@ void  first_child_process(int infile, char *argv, int pipe_fds[], char **env)
     close(infile);
     str_len = ft_strlen(read_buf) + 1;
     dup2(pipe_fds[WRITE_END], STDOUT_FILENO);
-    // execve();
+    execve("/usr/bin/ls", &argv, env);
     if (write(1, &str_len, sizeof(int)) < 0)
       return perror("Write Error");
     if (write(1, read_buf, (sizeof(char) * str_len)) < 0)
@@ -43,9 +56,10 @@ void  second_child_process(int outfile, char *argv, int pipe_fds[], char **env)
   if (read(pipe_fds[READ_START], &str_len, sizeof(int)) < 0)
     return (perror("Read Error"));
   if (read(pipe_fds[READ_START], read_buf, sizeof(char) * str_len) < 0)
-    return (perror("Read error"));
+    return (perror("Read Error"));
+  printf("Second child buffer -> %s\n", read_buf);
   close(pipe_fds[READ_START]);
-  // execve();
+  execve("/usr/bin/grep", &argv, env);
   dup2(outfile, STDOUT_FILENO);
   if (write(1, read_buf, str_len) < 0)
     return (perror("Write error"));

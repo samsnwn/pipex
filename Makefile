@@ -6,14 +6,13 @@ SRCS = pipex.c
 HEAD = pipex.h
 OBJS = $(SRCS:.c=.o)
 NAME = pipex
+OUTFILE = outfile.txt
 
 all: $(NAME)
 
-# create object files
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# create executable
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
@@ -21,7 +20,7 @@ clean:
 	$(RM) $(OBJS)
  
 fclean: clean
-	$(RM) $(NAME) outfile.txt
+	$(RM) $(NAME) $(OUTFILE)
 
 re: fclean all
 

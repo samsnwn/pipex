@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/09 11:16:47 by samcasti          #+#    #+#             */
+/*   Updated: 2024/10/09 11:20:42 by samcasti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-size_t ft_strlen(char *str)
+size_t	ft_strlen(char *str)
 {
-    size_t count;
+	size_t	count;
 
-    count = 0;
-    while (*str)
-    {
-        count++;
-        str++;
-    }
-    return count;
+	count = 0;
+	while (*str)
+	{
+		count++;
+		str++;
+	}
+	return (count);
 }

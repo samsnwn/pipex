@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:24 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/09 14:45:05 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:44:51 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 	int		infile;
 	char	*args[3];
 
-	args[0] = "/usr/bin/ls";
-	args[1] = "-l";
+	args[0] = get_path(cmd);
+	args[1] = get_flag(cmd);
 	args[2] = NULL;
 	close(pipe_fds[READ_START]);
 	infile = open(file, O_RDONLY);
@@ -37,10 +37,9 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 	int		outfile;
 	char	*args[3];
 
-	args[0] = "/usr/bin/grep";
-	args[1] = "-H";
+	args[0] = get_path(cmd);
+	args[1] = get_flag(cmd);
 	args[2] = NULL;
-
 	close(pipe_fds[WRITE_END]);
 	outfile = open(file, O_CREAT | O_RDWR | O_TRUNC);
 	if (outfile < 0)

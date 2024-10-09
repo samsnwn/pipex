@@ -6,21 +6,18 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:47 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/09 11:20:42 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:52:23 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-size_t	ft_strlen(char *str)
+char    *get_path(char *cmd)
 {
-	size_t	count;
+	return NULL;
+}
 
-	count = 0;
-	while (*str)
-	{
-		count++;
-		str++;
-	}
-	return (count);
+char    *get_flag(char *cmd)
+{
+	return NULL;
 }

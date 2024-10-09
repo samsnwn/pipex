@@ -3,8 +3,8 @@ CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 SRCS = pipex.c
+HEAD = pipex.h
 OBJS = $(SRCS:.c=.o)
-
 NAME = pipex
 
 all: $(NAME)
@@ -19,9 +19,9 @@ $(NAME): $(OBJS)
 
 clean:
 	$(RM) $(OBJS)
-
+ 
 fclean: clean
-	$(RM) $(NAME) 
+	$(RM) $(NAME) outfile.txt
 
 re: fclean all
 

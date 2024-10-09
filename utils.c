@@ -1,8 +1,8 @@
 #include "pipex.h"
 
-int ft_strlen(char *str)
+size_t ft_strlen(char *str)
 {
-    int count;
+    size_t count;
 
     count = 0;
     while (*str)

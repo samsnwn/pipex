@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib_funcs.c                                        :+:      :+:    :+:   */
+/*   lib.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samcasti <samcasti@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:46:27 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/09 15:46:29 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/10 11:29:47 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,30 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	substring[i] = '\0';
 	return (substring);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	int		i;
+	int		j;
+	char	*buf;
+
+	i = 0;
+	j = 0;
+	buf = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (buf == NULL)
+		return (NULL);
+	while (s1[i])
+	{
+		buf[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		buf[i] = s2[j];
+		i++;
+		j++;
+	}
+	buf[i] = '\0';
+	return (buf);
 }

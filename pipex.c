@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:24 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/09 15:44:51 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/10 12:07:23 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 {
 	int		infile;
 	char	*args[3];
-	char *program;
+	char	*program;
 
 	program = get_program(cmd);
 	args[0] = get_path(program);
@@ -38,8 +38,10 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 {
 	int		outfile;
 	char	*args[3];
+	char	*program;
 
-	args[0] = get_path(cmd);
+	program = get_program(cmd);
+	args[0] = get_path(program);
 	args[1] = get_flag(cmd);
 	args[2] = NULL;
 	close(pipe_fds[WRITE_END]);

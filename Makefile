@@ -1,8 +1,8 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I.
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
-SRCS = pipex.c
+SRCS = pipex.c ft_split.c lib.c utils.c
 HEAD = pipex.h
 OBJS = $(SRCS:.c=.o)
 NAME = pipex

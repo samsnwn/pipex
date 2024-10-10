@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:37 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/09 15:52:12 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/10 12:09:36 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 # define READ_START 0
 # define WRITE_END 1
 
-char    *get_path(char *cmd);
-char    *get_flag(char *cmd);
-char	*get_programm(char *str);
+char	*get_path(char *cmd);
+char	*get_flag(char *cmd);
+char	*get_program(char *str);
 char	**ft_split(char const *s, char c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
-
 
 #endif

@@ -16,8 +16,10 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 {
 	int		infile;
 	char	*args[3];
+	char *program;
 
-	args[0] = get_path(cmd);
+	program = get_program(cmd);
+	args[0] = get_path(program);
 	args[1] = get_flag(cmd);
 	args[2] = NULL;
 	close(pipe_fds[READ_START]);

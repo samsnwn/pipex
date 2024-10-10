@@ -31,21 +31,6 @@ int	count_words(char const *s, char c)
 	return (count);
 }
 
-char	**allocate_memory(char const *s, char c, int word_count)
-{
-	char	**buffer;
-
-	buffer = (char **)malloc(sizeof(char *) * (word_count + 1));
-	if (!buffer)
-		return (NULL);
-	if (!write_buffer(buffer, s, c, word_count))
-	{
-		free_buffer(buffer, word_count);
-		return (NULL);
-	}
-	return (buffer);
-}
-
 int	write_buffer(char **buffer, char const *s, char c, int word_count)
 {
 	int	i;
@@ -79,6 +64,21 @@ void	free_buffer(char **buffer, int count)
 		count--;
 	}
 	free(buffer);
+}
+
+char	**allocate_memory(char const *s, char c, int word_count)
+{
+	char	**buffer;
+
+	buffer = (char **)malloc(sizeof(char *) * (word_count + 1));
+	if (!buffer)
+		return (NULL);
+	if (!write_buffer(buffer, s, c, word_count))
+	{
+		free_buffer(buffer, word_count);
+		return (NULL);
+	}
+	return (buffer);
 }
 
 char	**ft_split(char const *s, char c)

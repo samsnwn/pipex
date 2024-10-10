@@ -14,10 +14,27 @@
 
 char    *get_path(char *cmd)
 {
-	return NULL;
+
+	// We split the env path, then we loop through each string of the array of paths and we search for a match with the programm?
+	return (NULL);
 }
 
-char    *get_flag(char *cmd)
+char	*get_flag(char *str)
 {
-	return NULL;
+	char	**arr;
+	char	*flag;
+
+	arr = ft_split(str, ' ');
+	flag = arr[1];
+	return (flag);
+}
+
+char	*get_programm(char *str)
+{
+	char	**arr;
+	char	*cmd;
+
+	arr = ft_split(str, ' ');
+	cmd = arr[0];
+	return (cmd);
 }

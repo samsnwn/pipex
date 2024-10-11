@@ -23,13 +23,16 @@
 # define READ_START 0
 # define WRITE_END 1
 
-char	*get_path(char *cmd);
-char	*get_flag(char *cmd);
-char	*get_program(char *str);
+char	**get_args(char *cmd, char **envp);
 char	**ft_split(char const *s, char c);
+size_t	ft_strlen(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlen(const char *s);
+size_t	ft_strcpy(char *dst, const char *src);
+int   ft_strncmp(const char *s1, const char *s2, size_t n);
+int   ft_arrlen(char **arr);
+void	error_handler(char *str);
+void	mem_error_handler(char *str, char **args);
 
 #endif

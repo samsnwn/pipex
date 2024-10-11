@@ -12,6 +12,16 @@
 
 #include "pipex.h"
 
+void	free_buffer(char **buffer, int count)
+{
+	while (count >= 0)
+	{
+		free(buffer[count]);
+		count--;
+	}
+	free(buffer);
+}
+
 int	count_words(char const *s, char c)
 {
 	int	count;
@@ -48,22 +58,20 @@ int	write_buffer(char **buffer, char const *s, char c, int word_count)
 			end++;
 		buffer[i] = ft_substr(s, start, end - start);
 		if (!buffer[i])
-			return (0);
+		{
+			while (i > 0)
+			{
+				free(buffer[i - 1]);
+				i--;
+			}
+			free(buffer); 
+			return (0); 
+		}
 		start = end;
 		i++;
 	}
-	buffer[i] = NULL;
+	buffer[i] = NULL; 
 	return (1);
-}
-
-void	free_buffer(char **buffer, int count)
-{
-	while (count >= 0)
-	{
-		free(buffer[count]);
-		count--;
-	}
-	free(buffer);
 }
 
 char	**allocate_memory(char const *s, char c, int word_count)

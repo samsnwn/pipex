@@ -15,45 +15,41 @@
 void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 {
 	int		infile;
-	char	*args[3];
-	char	*program;
+	char	**args;
 
-	program = get_program(cmd);
-	args[0] = get_path(program);
-	args[1] = get_flag(cmd);
-	args[2] = NULL;
+	args = get_args(cmd, envp);
+	if (!args)
+		error_handler("Args error");
 	close(pipe_fds[READ_START]);
 	infile = open(file, O_RDONLY);
-	if (infile < 0)
-		return (perror("Open file Error"));
+	if (infile == -1)
+		error_handler("No such file or directory");
 	dup2(infile, STDIN_FILENO);
 	close(infile);
 	dup2(pipe_fds[WRITE_END], STDOUT_FILENO);
 	close(pipe_fds[WRITE_END]);
 	if ((execve(args[0], args, envp)) < 0)
-		return (perror("EXEC Error"));
+		mem_error_handler("First EXEC Error", args);
 }
 
 void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 {
 	int		outfile;
-	char	*args[3];
-	char	*program;
+	char	**args;
 
-	program = get_program(cmd);
-	args[0] = get_path(program);
-	args[1] = get_flag(cmd);
-	args[2] = NULL;
+	args = get_args(cmd, envp);
+	if (!args)
+		error_handler("Args error");
 	close(pipe_fds[WRITE_END]);
-	outfile = open(file, O_CREAT | O_RDWR | O_TRUNC);
+	outfile = open(file, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (outfile < 0)
-		return (perror("Open file error"));
+		error_handler("Open file Error");
 	dup2(outfile, STDOUT_FILENO);
 	close(outfile);
 	dup2(pipe_fds[READ_START], STDIN_FILENO);
 	close(pipe_fds[READ_START]);
-	if (execve(args[0], args, envp) < 0)
-		return (perror("EXEC Error"));
+	if ((execve(args[0], args, envp)) < 0)
+		mem_error_handler("Second EXEC Error", args);
 }
 
 void	pipex(char **argv, char **envp)
@@ -63,10 +59,10 @@ void	pipex(char **argv, char **envp)
 	int	pid2;
 
 	if (pipe(pipe_fds) == -1)
-		return (perror("Pipe error"));
+		error_handler("Pipe error ");
 	pid1 = fork();
 	if (pid1 == -1)
-		return (perror("Fork error"));
+		error_handler("Fork error ");
 	if (pid1 == 0)
 		first_child_process(argv[1], pipe_fds, argv[2], envp);
 	else
@@ -74,18 +70,19 @@ void	pipex(char **argv, char **envp)
 		close(pipe_fds[WRITE_END]);
 		pid2 = fork();
 		if (pid2 == -1)
-			return (perror("Fork Error"));
+			error_handler("Fork error ");
 		if (pid2 == 0)
 			second_child_process(argv[3], pipe_fds, argv[4], envp);
 		close(pipe_fds[READ_START]);
 	}
+	wait(NULL);
 	wait(NULL);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	if (argc != 5)
-		return (-1);
+		return (EXIT_FAILURE);
 	pipex(argv, envp);
-	return (0);
+	return (EXIT_SUCCESS);
 }

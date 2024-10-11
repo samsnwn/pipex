@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:46:27 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/10 11:29:47 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:50:00 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	buf[i] = '\0';
 	return (buf);
+}
+
+void ft_putsr(char *str)
+{
+	while(*str)
+	{
+		write(1, str, ft_strlen(str));
+		write(1, "\n", 1);
+		str++;
+	}
 }

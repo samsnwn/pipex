@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:37 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/10 12:09:36 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:42:06 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int   ft_strncmp(const char *s1, const char *s2, size_t n);
 int   ft_arrlen(char **arr);
 void	error_handler(char *str);
 void	mem_error_handler(char *str, char **args);
+void ft_putsr(char *str);
 
 #endif

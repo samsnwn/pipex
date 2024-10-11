@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:24 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/10 12:07:23 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:42:03 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 
 	args = get_args(cmd, envp);
 	if (!args)
-		error_handler("Args error");
+		error_handler("First Args error");
 	close(pipe_fds[READ_START]);
 	infile = open(file, O_RDONLY);
 	if (infile == -1)
@@ -30,16 +30,17 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 	close(pipe_fds[WRITE_END]);
 	if ((execve(args[0], args, envp)) < 0)
 		mem_error_handler("First EXEC Error", args);
+	free(args);
 }
 
 void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 {
 	int		outfile;
-	char	**args;
+	char	**args; 
 
 	args = get_args(cmd, envp);
 	if (!args)
-		error_handler("Args error");
+		error_handler("Second Args error");
 	close(pipe_fds[WRITE_END]);
 	outfile = open(file, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (outfile < 0)
@@ -48,6 +49,7 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 	close(outfile);
 	dup2(pipe_fds[READ_START], STDIN_FILENO);
 	close(pipe_fds[READ_START]);
+	args[1] = NULL; // handle this
 	if ((execve(args[0], args, envp)) < 0)
 		mem_error_handler("Second EXEC Error", args);
 }

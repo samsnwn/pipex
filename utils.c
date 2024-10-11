@@ -6,115 +6,102 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:47 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/10 14:47:20 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:41:59 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char *get_path(char *cmd, char **envp)
+char	*find_path(char **envp)
 {
-    char *path_env = NULL;
-    char *path;
-    size_t path_len = 0;
-    size_t cmd_len = ft_strlen(cmd);
+    char	*path_env = NULL;
+	int		i;
 
-    // Find the PATH environment variable
-		int i = 0;
+	i = 0;
     while (envp[i])
     {
         if (ft_strncmp(envp[i], "PATH=", 5) == 0)
         {
-            path_env = envp[i] + 5; // Skip "PATH="
+            path_env = envp[i] + 5;
             break;
         }
 		i++;
     }
-
     if (!path_env)
-        return NULL; // Return NULL if PATH is not found
+		return NULL;
+	return path_env;
+}
 
-    // Iterate through the PATH variable manually
-    char *start = path_env;
-    char *end;
+char	*check_paths(char **paths_array, char *cmd)
+{
+	int i;
+	char *path;
+	char *final;
 
-    while (*start)
-    {
-        // Find the end of the current directory
-        end = start;
-        while (*end && *end != ':')
-            end++;
+	final = NULL;
+	i = 0;
+	while (paths_array[i])
+	{
+		path = ft_strjoin(paths_array[i], "/");
+		final = ft_strjoin(path, cmd);
+		free(path);
+		if (access(final, F_OK || X_OK) == 0)
+			return (final);
+		i++;
+	}
+	return (final);
+}
 
-        // Calculate the length for the full path
-        path_len = (end - start) + cmd_len + 2; // +1 for '/' and +1 for '\0'
+char	*get_path(char *cmd, char **envp)
+{
+    char *path_env;
+    char **paths_array;
+	char *final_path;
 
-        // Allocate memory for the full path
-        path = malloc(sizeof(char) * path_len);
-        if (!path)
-        {
-            perror("Memory allocation error");
-            return NULL; // Return NULL on allocation failure
-        }
-
-        // Manually construct the full path
-        ft_strcpy(path, start); // Copy the directory path
-        path[end - start] = '/'; // Add the '/' character
-        ft_strcpy(path + (end - start) + 1, cmd); // Copy the command
-
-        // Check if the file exists and is executable
-        if (access(path, X_OK) == 0) // Check if the file is executable
-            return path; // Return the full path if found
-        free(path); // Free the allocated memory if not found
-
-        // Move to the next directory in the PATH
-        start = (*end) ? end + 1 : end; // Skip the ':' if present
-    }
-    return NULL; // Return NULL if not found
+	path_env = find_path(envp);
+	paths_array = ft_split(path_env, ':');
+	final_path = check_paths(paths_array, cmd);
+	free(paths_array);
+    return (final_path);
 }
 
 char	**get_args(char *cmd, char **envp)
 {
-	char **arr;
-	char **args;
-	char *path;
-	int i;
+	char	**arr;
+	char	*path;
+	char	**args;
 
 	arr = ft_split(cmd, ' ');
-	path = get_path(arr[0], envp); // Get the full path of the command
-	if (!path)               // Check if the program path was found
+	path = get_path(arr[0], envp);
+	free(arr[0]);
+	arr[0] = path;
+	if (!path)
 	{
-		free(arr); // Free the split array if path not found
+		free(arr);
 		return (NULL);
 	}
-	args = malloc(sizeof(char) * (ft_arrlen(arr) + 2)); //+2 for program and NULL
-	if (!args)
-	{
-		free(arr);     // Free the split array on allocation failure
-		return (NULL);
-	}
-	args[0] = path;
-    free(path);
-	i = 0;
+
+	// I need to populate the arr so arr[1] and forward are the flags
+	int i = 1;
+
 	while (arr[i])
 	{
-		args[i + 1] = arr[i]; // Copy flags and arguments
-		i++;
+
 	}
-	args[i + 1] = NULL; // Null-terminate the array
-	free(arr);          // Free the split array
-	return (args);
-}
-
-void	error_handler(char *str)
-{
-	perror(str);
-	exit(EXIT_FAILURE);
-}
-
-void	mem_error_handler(char *str, char **args)
-{
-	perror(str);
-	if (args)
-		free(args);
-	exit(EXIT_FAILURE);
+	// args = malloc(sizeof(char *) * (ft_arrlen(arr) + 1));
+	// if (!args)
+	// {
+	// 	free(arr);
+	// 	return (NULL);
+	// }
+	// args[0] = ft_strdup(path);
+	// i = 0;
+	// while (arr[i])
+	// {
+	// 	args[i + 1] = ft_strdup(arr[i]);
+	// 	i++;
+	// }
+	// args[i + 1] = NULL;
+	// free(arr);
+	return (arr);
 }

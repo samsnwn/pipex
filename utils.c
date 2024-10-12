@@ -12,40 +12,54 @@
 
 #include "pipex.h"
 
+char	*get_first_word(char *str)
+{
+	char	**words;
+	char	*first_word;
+
+	words = ft_split(str, ' ');
+	first_word = words[0];
+	free(words);
+	return (first_word);
+}
+
 char	*find_path(char **envp)
 {
-    char	*path_env = NULL;
+	char	*path_env;
 	int		i;
 
+	path_env = NULL;
 	i = 0;
-    while (envp[i])
-    {
-        if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-        {
-            path_env = envp[i] + 5;
-            break;
-        }
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		{
+			path_env = envp[i] + 5;
+			break ;
+		}
 		i++;
-    }
-    if (!path_env)
-		return NULL;
-	return path_env;
+	}
+	if (!path_env)
+		return (NULL);
+	return (path_env);
 }
 
 char	*check_paths(char **paths_array, char *cmd)
 {
-	int i;
-	char *path;
-	char *final;
+	int		i;
+	char	*path;
+	char	*final;
+	char	*command;
 
 	final = NULL;
+	command = get_first_word(cmd);
 	i = 0;
 	while (paths_array[i])
 	{
 		path = ft_strjoin(paths_array[i], "/");
-		final = ft_strjoin(path, cmd);
+		final = ft_strjoin(path, command);
 		free(path);
-		if (access(final, F_OK || X_OK) == 0)
+		if (access(final, F_OK | X_OK) == 0)
 			return (final);
 		i++;
 	}
@@ -54,54 +68,24 @@ char	*check_paths(char **paths_array, char *cmd)
 
 char	*get_path(char *cmd, char **envp)
 {
-    char *path_env;
-    char **paths_array;
-	char *final_path;
+	char	*path_env;
+	char	**paths_array;
+	char	*final_path;
 
 	path_env = find_path(envp);
 	paths_array = ft_split(path_env, ':');
 	final_path = check_paths(paths_array, cmd);
 	free(paths_array);
-    return (final_path);
+	return (final_path);
 }
 
-char	**get_args(char *cmd, char **envp)
+char	**get_args(char *cmd)
 {
 	char	**arr;
-	char	*path;
-	char	**args;
+	int		arrlen;
 
 	arr = ft_split(cmd, ' ');
-	path = get_path(arr[0], envp);
-	free(arr[0]);
-	arr[0] = path;
-	if (!path)
-	{
-		free(arr);
-		return (NULL);
-	}
-
-	// I need to populate the arr so arr[1] and forward are the flags
-	int i = 1;
-
-	while (arr[i])
-	{
-
-	}
-	// args = malloc(sizeof(char *) * (ft_arrlen(arr) + 1));
-	// if (!args)
-	// {
-	// 	free(arr);
-	// 	return (NULL);
-	// }
-	// args[0] = ft_strdup(path);
-	// i = 0;
-	// while (arr[i])
-	// {
-	// 	args[i + 1] = ft_strdup(arr[i]);
-	// 	i++;
-	// }
-	// args[i + 1] = NULL;
-	// free(arr);
+	arrlen = ft_arrlen(arr);
+	arr[arrlen] = NULL;
 	return (arr);
 }

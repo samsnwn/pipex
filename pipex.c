@@ -16,8 +16,10 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 {
 	int		infile;
 	char	**args;
+	char	*path;
 
-	args = get_args(cmd, envp);
+	args = get_args(cmd);
+	path = get_path(cmd, envp);
 	if (!args)
 		error_handler("First Args error");
 	close(pipe_fds[READ_START]);
@@ -28,17 +30,18 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 	close(infile);
 	dup2(pipe_fds[WRITE_END], STDOUT_FILENO);
 	close(pipe_fds[WRITE_END]);
-	if ((execve(args[0], args, envp)) < 0)
+	if ((execve(path, args, envp)) == -1)
 		mem_error_handler("First EXEC Error", args);
-	free(args);
 }
 
 void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 {
 	int		outfile;
-	char	**args; 
+	char	**args;
+	char	*path;
 
-	args = get_args(cmd, envp);
+	args = get_args(cmd);
+	path = get_path(cmd, envp);
 	if (!args)
 		error_handler("Second Args error");
 	close(pipe_fds[WRITE_END]);
@@ -49,8 +52,7 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 	close(outfile);
 	dup2(pipe_fds[READ_START], STDIN_FILENO);
 	close(pipe_fds[READ_START]);
-	args[1] = NULL; // handle this
-	if ((execve(args[0], args, envp)) < 0)
+	if ((execve(path, args, envp)) == -1)
 		mem_error_handler("Second EXEC Error", args);
 }
 

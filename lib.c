@@ -82,13 +82,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	buf[i] = '\0';
 	return (buf);
 }
-
-void ft_putsr(char *str)
-{
-	while(*str)
-	{
-		write(1, str, ft_strlen(str));
-		write(1, "\n", 1);
-		str++;
-	}
-}

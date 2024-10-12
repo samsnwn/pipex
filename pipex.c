@@ -12,6 +12,19 @@
 
 #include "pipex.h"
 
+void	wait_childs(int pid1, int pid2)
+{
+	int	status1;
+	int	status2;
+
+	waitpid(pid1, &status1, 0);
+	waitpid(pid2, &status2, 0);
+	if (status2 & (0xFF == 0))
+		exit(EXIT_SUCCESS);
+	else
+		exit(status2 >> 8);
+}
+
 void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 {
 	int		infile;
@@ -31,7 +44,7 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 	dup2(pipe_fds[WRITE_END], STDOUT_FILENO);
 	close(pipe_fds[WRITE_END]);
 	if ((execve(path, args, envp)) == -1)
-		mem_error_handler("First EXEC Error", args);
+		mem_error_handler("Command not found", args);
 }
 
 void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
@@ -46,14 +59,14 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 		error_handler("Second Args error");
 	close(pipe_fds[WRITE_END]);
 	outfile = open(file, O_CREAT | O_RDWR | O_TRUNC, 0777);
-	if (outfile < 0)
+	if (outfile == -1)
 		error_handler("Open file Error");
 	dup2(outfile, STDOUT_FILENO);
 	close(outfile);
 	dup2(pipe_fds[READ_START], STDIN_FILENO);
 	close(pipe_fds[READ_START]);
 	if ((execve(path, args, envp)) == -1)
-		mem_error_handler("Second EXEC Error", args);
+		mem_error_handler("Command not found", args);
 }
 
 void	pipex(char **argv, char **envp)
@@ -78,9 +91,8 @@ void	pipex(char **argv, char **envp)
 		if (pid2 == 0)
 			second_child_process(argv[3], pipe_fds, argv[4], envp);
 		close(pipe_fds[READ_START]);
+		wait_childs(pid1, pid2);
 	}
-	wait(NULL);
-	wait(NULL);
 }
 
 int	main(int argc, char **argv, char **envp)

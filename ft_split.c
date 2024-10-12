@@ -58,19 +58,11 @@ int	write_buffer(char **buffer, char const *s, char c, int word_count)
 			end++;
 		buffer[i] = ft_substr(s, start, end - start);
 		if (!buffer[i])
-		{
-			while (i > 0)
-			{
-				free(buffer[i - 1]);
-				i--;
-			}
-			free(buffer); 
-			return (0); 
-		}
+			return (0);
 		start = end;
 		i++;
 	}
-	buffer[i] = NULL; 
+	buffer[i] = NULL;
 	return (1);
 }
 

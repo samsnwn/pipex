@@ -34,6 +34,8 @@ size_t	ft_strcpy(char *dst, const char *src);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_arrlen(char **arr);
 void	error_handler(char *str);
-void	mem_error_handler(char *str, char **args);
+void	mem_error_handler(char *str, char **args, int err);
+char	*get_first_word(char *str);
+void	free_buffer(char **buffer, int count);
 
 #endif

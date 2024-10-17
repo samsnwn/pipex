@@ -12,17 +12,6 @@
 
 #include "pipex.h"
 
-char	*get_first_word(char *str)
-{
-	char	**words;
-	char	*first_word;
-
-	words = ft_split(str, ' ');
-	first_word = words[0];
-	free(words);
-	return (first_word);
-}
-
 char	*find_path(char **envp)
 {
 	char	*path_env;
@@ -61,6 +50,7 @@ char	*check_paths(char **paths_array, char *cmd)
 		free(path);
 		if (access(final, F_OK | X_OK) == 0)
 			return (final);
+        free(final);
 		i++;
 	}
 	return (final);
@@ -71,11 +61,13 @@ char	*get_path(char *cmd, char **envp)
 	char	*path_env;
 	char	**paths_array;
 	char	*final_path;
+    int arrlen;
 
 	path_env = find_path(envp);
 	paths_array = ft_split(path_env, ':');
+    arrlen = ft_arrlen(paths_array);
 	final_path = check_paths(paths_array, cmd);
-	free(paths_array);
+	free_buffer(paths_array, arrlen);
 	return (final_path);
 }
 

@@ -6,10 +6,13 @@ void	error_handler(char *str)
 	exit(EXIT_FAILURE);
 }
 
-void	mem_error_handler(char *str, char **args)
+void	mem_error_handler(char *str, char **args, int err)
 {
+	int arrlen;
+
+	arrlen = ft_arrlen(args);
 	perror(str);
 	if (args)
-		free(args);
-	exit(EXIT_FAILURE);
+		free_buffer(args, arrlen);
+	exit(err);
 }

@@ -1,3 +1,4 @@
+NAME = pipex
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
@@ -5,7 +6,6 @@ RM = rm -f
 SRCS = pipex.c ft_split.c lib.c lib2.c utils.c errors.c
 HEAD = pipex.h
 OBJS = $(SRCS:.c=.o)
-NAME = pipex
 OUTFILE = outfile.txt
 
 all: $(NAME)

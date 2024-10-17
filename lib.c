@@ -82,3 +82,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	buf[i] = '\0';
 	return (buf);
 }
+
+char	*get_first_word(char *str)
+{
+	char	**words;
+	char	*first_word;
+
+	words = ft_split(str, ' ');
+	first_word = words[0];
+	free(words);
+	return (first_word);
+}

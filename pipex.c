@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:24 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/11 17:42:03 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/17 13:57:40 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 	if (!path)
 		error_handler("Not a path");
 	close(pipe_fds[WRITE_END]);
-	outfile = open(file, O_CREAT | O_RDWR | O_TRUNC, 0677);
+	outfile = open(file, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (outfile == -1)
 		error_handler("Open file Error");
 	dup2(outfile, STDOUT_FILENO);
@@ -70,7 +70,7 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 	dup2(pipe_fds[READ_START], STDIN_FILENO);
 	close(pipe_fds[READ_START]);
 	if ((execve(path, args, envp)) == -1)
-		mem_error_handler("command not found", args, 127);
+		mem_error_handler("command not found", args, errno);
 }
 
 void	pipex(char **argv, char **envp)

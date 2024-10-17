@@ -6,7 +6,6 @@ RM = rm -f
 SRCS = pipex.c ft_split.c lib.c lib2.c utils.c errors.c
 HEAD = pipex.h
 OBJS = $(SRCS:.c=.o)
-OUTFILE = outfile.txt
 
 all: $(NAME)
 
@@ -20,7 +19,7 @@ clean:
 	$(RM) $(OBJS)
  
 fclean: clean
-	$(RM) $(NAME) $(OUTFILE)
+	$(RM) $(NAME)
 
 re: fclean all
 

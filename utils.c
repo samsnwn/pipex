@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:47 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/11 17:41:59 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:00:02 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*check_paths(char **paths_array, char *cmd)
 		free(path);
 		if (access(final, F_OK | X_OK) == 0)
 			return (final);
-        free(final);
+		free(final);
 		i++;
 	}
 	return (final);
@@ -61,11 +61,11 @@ char	*get_path(char *cmd, char **envp)
 	char	*path_env;
 	char	**paths_array;
 	char	*final_path;
-    int arrlen;
+	int		arrlen;
 
 	path_env = find_path(envp);
 	paths_array = ft_split(path_env, ':');
-    arrlen = ft_arrlen(paths_array);
+	arrlen = ft_arrlen(paths_array);
 	final_path = check_paths(paths_array, cmd);
 	free_buffer(paths_array, arrlen);
 	return (final_path);

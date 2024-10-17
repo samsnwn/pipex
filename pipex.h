@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:37 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/11 15:42:06 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/17 13:48:17 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <string.h>
+
 
 # define READ_START 0
 # define WRITE_END 1

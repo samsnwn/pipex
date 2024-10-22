@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:37 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/17 15:15:00 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:37:27 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ size_t	ft_strcpy(char *dst, const char *src);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_arrlen(char **arr);
 void	error_handler(char *str);
-void	mem_error_handler(char *str, char **args, int err);
+void	mem_error_handler(char *str, char **args);
 char	*get_first_word(char *str);
 void	free_buffer(char **buffer, int count);
 

@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:10:03 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/17 15:17:47 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:42:56 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	error_handler(char *str)
 	exit(EXIT_FAILURE);
 }
 
-void	mem_error_handler(char *str, char **args, int err)
+void	mem_error_handler(char *str, char **args)
 {
 	int	arrlen;
 
@@ -26,5 +26,5 @@ void	mem_error_handler(char *str, char **args, int err)
 	perror(str);
 	if (args)
 		free_buffer(args, arrlen);
-	exit(err);
+	exit(EXIT_FAILURE);
 }

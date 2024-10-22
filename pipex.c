@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:24 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/17 15:36:33 by samcasti         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:55:39 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 	dup2(pipe_fds[WRITE_END], STDOUT_FILENO);
 	close(pipe_fds[WRITE_END]);
 	if ((execve(path, args, envp)) == -1)
-		mem_error_handler("command not found", args, errno);
+		mem_error_handler("command not found", args);
 }
 
 void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
@@ -70,7 +70,7 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 	dup2(pipe_fds[READ_START], STDIN_FILENO);
 	close(pipe_fds[READ_START]);
 	if ((execve(path, args, envp)) == -1)
-		mem_error_handler("command not found", args, errno);
+		mem_error_handler("command not found", args);
 }
 
 void	pipex(char **argv, char **envp)

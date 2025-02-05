@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
-SRCS = pipex.c ft_split.c lib.c lib2.c utils.c errors.c
+SRCS = main.c first_child.c second_child.c ft_split.c lib.c lib2.c utils.c errors.c
 HEAD = pipex.h
 OBJS = $(SRCS:.c=.o)
 

@@ -38,4 +38,7 @@ void	mem_error_handler(char *str, char **args);
 char	*get_first_word(char *str);
 void	free_buffer(char **buffer, int count);
 
+void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp);
+void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp);
+
 #endif

@@ -67,13 +67,25 @@ char	*get_path(char *cmd, char **envp)
 	char	*path_env;
 	char	**paths_array;
 	char	*final_path;
+	char	*command;
 	int		arrlen;
 
+	command = get_first_word(cmd);
+	if (!command)
+		return (NULL);
+	if (command[0] == '/')
+	{
+		if (access(command, F_OK | X_OK) == 0)
+			return (command);
+		free(command);
+		return (NULL);
+	}
 	path_env = find_path(envp);
 	paths_array = ft_split(path_env, ':');
 	arrlen = ft_arrlen(paths_array);
 	final_path = check_paths(paths_array, cmd);
 	free_buffer(paths_array, arrlen);
+	free(command);
 	return (final_path);
 }
 

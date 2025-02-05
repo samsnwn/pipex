@@ -19,10 +19,9 @@ void	wait_childs(int pid1, int pid2)
 
 	waitpid(pid1, &status1, 0);
 	waitpid(pid2, &status2, 0);
-	if (status2 & (0xFF == 0))
-		exit(1);
-	else
-		exit(status2 >> 8);
+	if ((status2 & 0x7F) || ((status2 >> 8) & 0xFF) == 127)
+		exit(127);
+	exit((status2 >> 8) & 0xFF);
 }
 
 void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
@@ -38,7 +37,8 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 	if (!path)
 	{
 		free_buffer(args, ft_arrlen(args));
-		error_handler("Not a path");
+		write(2, "command not found\n", 17);
+		exit(127);
 	}
 	close(pipe_fds[READ_START]);
 	infile = open(file, O_RDONLY, 00700);
@@ -52,8 +52,10 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 	dup2(pipe_fds[WRITE_END], STDOUT_FILENO);
 	close(pipe_fds[WRITE_END]);
 	execve(path, args, envp);
-	free(path);  // Only reached if execve fails
-	mem_error_handler("command not found", args);
+	free(path);
+	free_buffer(args, ft_arrlen(args));
+	write(2, "command not found\n", 17);
+	exit(127);
 }
 
 void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
@@ -69,7 +71,8 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 	if (!path)
 	{
 		free_buffer(args, ft_arrlen(args));
-		error_handler("Not a path");
+		write(2, "command not found\n", 17);
+		exit(127);
 	}
 	close(pipe_fds[WRITE_END]);
 	outfile = open(file, O_CREAT | O_RDWR | O_TRUNC, 00700);
@@ -83,8 +86,10 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 	dup2(pipe_fds[READ_START], STDIN_FILENO);
 	close(pipe_fds[READ_START]);
 	execve(path, args, envp);
-	free(path);  // Only reached if execve fails
-	mem_error_handler("command not found", args);
+	free(path);
+	free_buffer(args, ft_arrlen(args));
+	write(2, "command not found\n", 17);
+	exit(127);
 }
 
 void	pipex(char **argv, char **envp)

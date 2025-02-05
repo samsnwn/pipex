@@ -66,7 +66,7 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 
 	args = get_args(cmd);
 	if (!args)
-		error_handler("Second Args error");
+		error_handler("First Args error");
 	path = get_path(cmd, envp);
 	if (!path)
 	{

@@ -81,7 +81,17 @@ char	*get_path(char *cmd, char **envp)
 		return (NULL);
 	}
 	path_env = find_path(envp);
+	if (!path_env)
+	{
+		free(command);
+		return (NULL);
+	}
 	paths_array = ft_split(path_env, ':');
+	if (!paths_array)
+	{
+		free(command);
+		return (NULL);
+	}
 	arrlen = ft_arrlen(paths_array);
 	final_path = check_paths(paths_array, cmd);
 	free_buffer(paths_array, arrlen);

@@ -101,20 +101,24 @@ void	pipex(char **argv, char **envp)
 		error_handler("Pipe error ");
 	pid1 = fork();
 	if (pid1 == -1)
+	{
+		close(pipe_fds[0]);
+		close(pipe_fds[1]);
 		error_handler("Fork error ");
+	}
 	if (pid1 == 0)
 		first_child_process(argv[1], pipe_fds, argv[2], envp);
-	else
+	close(pipe_fds[WRITE_END]);
+	pid2 = fork();
+	if (pid2 == -1)
 	{
-		close(pipe_fds[WRITE_END]);
-		pid2 = fork();
-		if (pid2 == -1)
-			error_handler("Fork error ");
-		if (pid2 == 0)
-			second_child_process(argv[3], pipe_fds, argv[4], envp);
 		close(pipe_fds[READ_START]);
-		wait_childs(pid1, pid2);
+		error_handler("Fork error ");
 	}
+	if (pid2 == 0)
+		second_child_process(argv[3], pipe_fds, argv[4], envp);
+	close(pipe_fds[READ_START]);
+	wait_childs(pid1, pid2);
 }
 
 int	main(int argc, char **argv, char **envp)

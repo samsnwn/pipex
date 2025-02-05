@@ -42,6 +42,8 @@ char	*check_paths(char **paths_array, char *cmd)
 
 	final = NULL;
 	command = get_first_word(cmd);
+	if (!command)
+		return (NULL);
 	i = 0;
 	while (paths_array[i])
 	{
@@ -49,11 +51,15 @@ char	*check_paths(char **paths_array, char *cmd)
 		final = ft_strjoin(path, command);
 		free(path);
 		if (access(final, F_OK | X_OK) == 0)
+		{
+			free(command);
 			return (final);
+		}
 		free(final);
 		i++;
 	}
-	return (final);
+	free(command);
+	return (NULL);
 }
 
 char	*get_path(char *cmd, char **envp)
@@ -77,6 +83,8 @@ char	**get_args(char *cmd)
 	int		arrlen;
 
 	arr = ft_split(cmd, ' ');
+	if (!arr)
+		return (NULL);
 	arrlen = ft_arrlen(arr);
 	arr[arrlen] = NULL;
 	return (arr);

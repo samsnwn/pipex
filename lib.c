@@ -87,9 +87,18 @@ char	*get_first_word(char *str)
 {
 	char	**words;
 	char	*first_word;
+	int		i;
 
 	words = ft_split(str, ' ');
-	first_word = words[0];
+	if (!words)
+		return (NULL);
+	first_word = ft_strdup(words[0]);
+	i = 0;
+	while (words[i])
+	{
+		free(words[i]);
+		i++;
+	}
 	free(words);
 	return (first_word);
 }

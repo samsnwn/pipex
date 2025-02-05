@@ -66,7 +66,7 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 
 	args = get_args(cmd);
 	if (!args)
-		error_handler("First Args error");
+		error_handler("Second Args error");
 	path = get_path(cmd, envp);
 	if (!path)
 	{
@@ -78,8 +78,10 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 	outfile = open(file, O_CREAT | O_RDWR | O_TRUNC, 00700);
 	if (outfile == -1)
 	{
+		perror("Open file Error");
 		free(path);
-		mem_error_handler("Open file Error", args);
+		free_buffer(args, ft_arrlen(args));
+		exit(1);
 	}
 	dup2(outfile, STDOUT_FILENO);
 	close(outfile);

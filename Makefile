@@ -7,6 +7,8 @@ SRCS = main.c first_child.c second_child.c ft_split.c lib.c lib2.c utils.c error
 HEAD = pipex.h
 OBJS = $(SRCS:.c=.o)
 
+OUTFILE = outfile.txt
+
 all: $(NAME)
 
 %.o: %.c
@@ -19,7 +21,7 @@ clean:
 	$(RM) $(OBJS)
  
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(OUTFILE)
 
 re: fclean all
 

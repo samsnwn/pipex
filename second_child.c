@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   second_child.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:24 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/22 16:55:39 by samcasti         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:59:35 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_second_process_error(char *path, char **args)
 	exit(127);
 }
 
-void	setup_second_process(char *file, int pipe_fds[], char **args, char *path)
+void	setup_second(char *file, int pipe_fds[], char **args, char *path)
 {
 	int	outfile;
 
@@ -39,7 +39,7 @@ void	setup_second_process(char *file, int pipe_fds[], char **args, char *path)
 	close(pipe_fds[READ_START]);
 }
 
-void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
+void	second_child(char *cmd, int pipe_fds[], char *file, char **envp)
 {
 	char	**args;
 	char	*path;
@@ -54,7 +54,7 @@ void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp)
 		write(2, "command not found\n", 17);
 		exit(127);
 	}
-	setup_second_process(file, pipe_fds, args, path);
+	setup_second(file, pipe_fds, args, path);
 	execve(path, args, envp);
 	handle_second_process_error(path, args);
 }

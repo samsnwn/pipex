@@ -6,7 +6,7 @@
 /*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:16:37 by samcasti          #+#    #+#             */
-/*   Updated: 2024/10/22 16:37:27 by samcasti         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:57:32 by samcasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	mem_error_handler(char *str, char **args);
 char	*get_first_word(char *str);
 void	free_buffer(char **buffer, int count);
 
-void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp);
-void	second_child_process(char *cmd, int pipe_fds[], char *file, char **envp);
+void	first_child(char *file, int pipe_fds[], char *cmd, char **envp);
+void	second_child(char *cmd, int pipe_fds[], char *file, char **envp);
 
 #endif

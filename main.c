@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/06 10:55:54 by samcasti          #+#    #+#             */
+/*   Updated: 2025/02/06 10:58:38 by samcasti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void	wait_childs(int pid1, int pid2)
@@ -36,13 +48,13 @@ void	pipex(char **argv, char **envp)
 	if (pid1 == -1)
 		handle_fork_error(pipe_fds, 1);
 	if (pid1 == 0)
-		first_child_process(argv[1], pipe_fds, argv[2], envp);
+		first_child(argv[1], pipe_fds, argv[2], envp);
 	close(pipe_fds[WRITE_END]);
 	pid2 = fork();
 	if (pid2 == -1)
 		handle_fork_error(pipe_fds, 2);
 	if (pid2 == 0)
-		second_child_process(argv[3], pipe_fds, argv[4], envp);
+		second_child(argv[3], pipe_fds, argv[4], envp);
 	close(pipe_fds[READ_START]);
 	wait_childs(pid1, pid2);
 }

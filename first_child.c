@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   first_child.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: samcasti <samcasti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/06 10:55:07 by samcasti          #+#    #+#             */
+/*   Updated: 2025/02/06 11:00:11 by samcasti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void	handle_first_process_error(char *path, char **args)
@@ -8,7 +20,7 @@ void	handle_first_process_error(char *path, char **args)
 	exit(127);
 }
 
-void	setup_first_process(char *file, int pipe_fds[], char **args, char *path)
+void	setup_first(char *file, int pipe_fds[], char **args, char *path)
 {
 	int	infile;
 
@@ -25,7 +37,7 @@ void	setup_first_process(char *file, int pipe_fds[], char **args, char *path)
 	close(pipe_fds[WRITE_END]);
 }
 
-void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
+void	first_child(char *file, int pipe_fds[], char *cmd, char **envp)
 {
 	char	**args;
 	char	*path;
@@ -40,7 +52,7 @@ void	first_child_process(char *file, int pipe_fds[], char *cmd, char **envp)
 		write(2, "command not found\n", 17);
 		exit(127);
 	}
-	setup_first_process(file, pipe_fds, args, path);
+	setup_first(file, pipe_fds, args, path);
 	execve(path, args, envp);
 	handle_first_process_error(path, args);
 }

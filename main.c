@@ -16,8 +16,8 @@ void	handle_fork_error(int pipe_fds[], int which_pipe)
 {
 	if (which_pipe == 1)
 	{
-		close(pipe_fds[0]);
-		close(pipe_fds[1]);
+		close(pipe_fds[READ_START]);
+		close(pipe_fds[WRITE_END]);
 	}
 	else
 		close(pipe_fds[READ_START]);

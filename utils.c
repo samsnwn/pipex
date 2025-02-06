@@ -62,17 +62,8 @@ char	*check_paths(char **paths_array, char *cmd)
 	return (NULL);
 }
 
-char	*get_path(char *cmd, char **envp)
+char	*handle_absolute_path(char *command)
 {
-	char	*path_env;
-	char	**paths_array;
-	char	*final_path;
-	char	*command;
-	int		arrlen;
-
-	command = get_first_word(cmd);
-	if (!command)
-		return (NULL);
 	if (command[0] == '/')
 	{
 		if (access(command, F_OK | X_OK) == 0)
@@ -80,6 +71,16 @@ char	*get_path(char *cmd, char **envp)
 		free(command);
 		return (NULL);
 	}
+	return (NULL);
+}
+
+char	*get_relative_path(char *cmd, char *command, char **envp)
+{
+	char	*path_env;
+	char	**paths_array;
+	char	*final_path;
+	int		arrlen;
+
 	path_env = find_path(envp);
 	if (!path_env)
 	{
@@ -95,19 +96,21 @@ char	*get_path(char *cmd, char **envp)
 	arrlen = ft_arrlen(paths_array);
 	final_path = check_paths(paths_array, cmd);
 	free_buffer(paths_array, arrlen);
-	free(command);
 	return (final_path);
 }
 
-char	**get_args(char *cmd)
+char	*get_path(char *cmd, char **envp)
 {
-	char	**arr;
-	int		arrlen;
+	char	*command;
+	char	*path;
 
-	arr = ft_split(cmd, ' ');
-	if (!arr)
+	command = get_first_word(cmd);
+	if (!command)
 		return (NULL);
-	arrlen = ft_arrlen(arr);
-	arr[arrlen] = NULL;
-	return (arr);
+	path = handle_absolute_path(command);
+	if (path)
+		return (path);
+	path = get_relative_path(cmd, command, envp);
+	free(command);
+	return (path);
 }

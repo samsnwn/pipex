@@ -41,4 +41,7 @@ void	free_buffer(char **buffer, int count);
 void	first_child(char *file, int pipe_fds[], char *cmd, char **envp);
 void	second_child(char *cmd, int pipe_fds[], char *file, char **envp);
 
+char	*handle_absolute_path(char *command);
+char	*get_relative_path(char *cmd, char *command, char **envp);
+
 #endif

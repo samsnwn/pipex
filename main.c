@@ -36,6 +36,19 @@ void	handle_fork_error(int pipe_fds[], int which_pipe)
 	error_handler("Fork error ");
 }
 
+char	**get_args(char *cmd)
+{
+	char	**arr;
+	int		arrlen;
+
+	arr = ft_split(cmd, ' ');
+	if (!arr)
+		return (NULL);
+	arrlen = ft_arrlen(arr);
+	arr[arrlen] = NULL;
+	return (arr);
+}
+
 void	pipex(char **argv, char **envp)
 {
 	int	pipe_fds[2];
